@@ -6,7 +6,6 @@
   <title>EuroMebel — Магазины</title>
   <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
   <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { font-family: 'Inter', system-ui, sans-serif; }
@@ -14,9 +13,270 @@
 </head>
 <body>
   <div id="root"></div>
-  
-  <script type="text/babel">
-    // Здесь будет весь код из euromebel-stores.jsx
+
+  <script>
+    const { useState } = React;
+    const { MapPin, ChevronLeft, Navigation, Clock, Phone } = (() => {
+      const createIcon = (paths, name) => ({ name, paths });
+      return {
+        MapPin: (props) => <svg xmlns="http://www.w3.org/2000/svg" width={props.size||24} height={props.size||24} viewBox="0 0 24 24" fill="none" stroke={props.color||"currentColor"} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>,
+        ChevronLeft: (props) => <svg xmlns="http://www.w3.org/2000/svg" width={props.size||24} height={props.size||24} viewBox="0 0 24 24" fill="none" stroke={props.color||"currentColor"} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"/></svg>,
+        Navigation: (props) => <svg xmlns="http://www.w3.org/2000/svg" width={props.size||24} height={props.size||24} viewBox="0 0 24 24" fill="none" stroke={props.color||"currentColor"} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>,
+        Clock: (props) => <svg xmlns="http://www.w3.org/2000/svg" width={props.size||24} height={props.size||24} viewBox="0 0 24 24" fill="none" stroke={props.color||"currentColor"} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>,
+        Phone: (props) => <svg xmlns="http://www.w3.org/2000/svg" width={props.size||24} height={props.size||24} viewBox="0 0 24 24" fill="none" stroke={props.color||"currentColor"} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+      };
+    })();
+
+    const LOGO = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASwAAABaCAYAAACB/gISAAAACXBIWXMAACE4AAAhOAF2rZf3AAAA" +
+"GXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3JnXbVZsQEAAAAJcEhZcwAAJOgAACToAafeH/kA" +
+"AAEjSURBVHic7dExDcMwFIZhKiSGSEyBhFiwABMwARMwABOwABOwQMAESJiACSZgBEaIjKDI0k/u" +
+"//L9n99JqZRKpVQqlUqlUimVSqVSKZVKpVQqlUqlUimVSqVSKZVKpVQqlUqlUiqVUimVUimVUimV" +
+"UimVUimVUimVUimVUimVSn08j2MYho7j4Pt+v99vNpvd73eUUqVSKZVKqZRKqVQqlUqlUiqVUimV" +
+"SqVSKpVSqZRKpVIqlUqlUiqVUimVUimVUimVUimVUimVUimVUimVUimVUiqVUimVUimVUimVUimV" +
+"UimVUimVUimVUimVUimVUimVUimVUimVSqVSKpVKpVQqlUqlUiqVUimVUimVUqmUSqlUKpVSKZVK" +
+"qVQqlUqlUiqVUimVUimVUimVUimVUimVUimVUimVUimVUimVUimVUimVUimVUimVUimVUimVUiqV" +
+"UimVUimVUimVUiqVUimVUimVUiqVUimVUimVSqlUKpVSqVQqlUqlUimVUimVUiqVUiqVUimVUimV" +
+"UimVUimVUimVUimVUimVUimVUimVUimVUimVUimVUimVUimVUimVUimVUimVUimVUimVUimVUimV" +
+"UqlUKpVKpVIplUqlUimVUimVUimVUimVUimVUimVUimVUimVUimVUimVUimVUimVUimVUimVUimV" +
+"UimVUimVUimVUimVUimVUimVUimVUimVUimVUimVUimVSqlUKpVKpVIqlUqlUimVUqlUKpVSKZVK" +
+"qZRKpVIqlUqlUimVUqlUKpVSKZVKpVIqlUqlUimVUqlUKpVSKZVKpVIqlUqlUimVUqlUKpVSKpVS" +
+"KZVKpVIqlUqlUimVUqlUKpVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVS" +
+"KZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVS" +
+"KZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVS" +
+"KZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVS" +
+"KZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVS" +
+"KZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVS" +
+"KZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVS" +
+"KZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVS" +
+"KZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVS" +
+"KZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVS" +
+"KZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVS" +
+"KZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVS" +
+"KZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVS" +
+"KZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVS" +
+"KZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVS" +
+"KZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVS" +
+"KZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVS" +
+"KZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVS" +
+"KZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVS" +
+"KZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVS" +
+"KZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVS" +
+"KZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVS" +
+"KZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVS" +
+"KZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVS" +
+"KZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVS" +
+"KZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVS" +
+"KZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVS" +
+"KZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVS" +
+"KZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVS" +
+"KZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVS" +
+"KZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVS" +
+"KZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVS" +
+"KZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVS" +
+"KZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVS" +
+"KZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVS" +
+"KZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVS" +
+"KZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVS" +
+"KZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVS" +
+"KZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVS" +
+"KZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVS" +
+"KZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVS" +
+"KZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVS" +
+"KZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVS" +
+"KZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVS" +
+"KZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVS" +
+"KZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVS" +
+"KZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVS" +
+"KZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVS" +
+"KZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVS" +
+"KZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVS" +
+"KZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVS" +
+"KZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVS" +
+"KZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVS" +
+"KZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVS" +
+"KZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVS" +
+"KZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVS" +
+"KZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVS" +
+"KZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVS" +
+"KZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVS" +
+"AAAASUVORK5CYII=";
+
+    const BRAND = "#0055A4";
+    const BRAND_RED = "#E30613";
+
+    const CITIES = [
+      {
+        id: "almaty",
+        name: "Алматы",
+        stores: [
+          { name: "EuroMebel — салон 1", address: "Адрес уточняется", hours: "10:00–20:00", phone: "+7 ___ ___ __ __", gis2: "https://2gis.kz/almaty/directions/points/%7C76.947921%2C43.272017%3B9429940000794200", yandex: "https://yandex.kz/maps/?pt=76.947921,43.272017&z=17&l=map" },
+          { name: "EuroMebel — салон 2", address: "Адрес уточняется", hours: "10:00–20:00", phone: "+7 ___ ___ __ __", gis2: "https://2gis.kz/almaty/directions/points/%7C76.846899%2C43.236801%3B70000001045037426", yandex: "https://yandex.kz/maps/?pt=76.846899,43.236801&z=17&l=map" },
+          { name: "EuroMebel — салон 3", address: "Адрес уточняется", hours: "10:00–20:00", phone: "+7 ___ ___ __ __", gis2: "https://2gis.kz/almaty/directions/points/%7C76.864492%2C43.367372%3B70000001089820228", yandex: "https://yandex.kz/maps/?pt=76.864492,43.367372&z=17&l=map" },
+          { name: "EuroMebel — салон 4", address: "Адрес уточняется", hours: "10:00–20:00", phone: "+7 ___ ___ __ __", gis2: "https://2gis.kz/almaty/directions/points/%7C77.024235%2C43.315395%3B70000001080894442?m=76.970079%2C43.2778%2F12", yandex: "https://yandex.kz/maps/?pt=77.024235,43.315395&z=17&l=map" },
+        ],
+      },
+      {
+        id: "shymkent",
+        name: "Шымкент",
+        stores: [
+          { name: "EuroMebel — салон 1", address: "Адрес уточняется", hours: "10:00–20:00", phone: "+7 ___ ___ __ __", gis2: "https://2gis.kz/shymkent/directions/points/%7C69.636013%2C42.340015%3B70000001079860196", yandex: "https://yandex.kz/maps/?pt=69.636013,42.340015&z=17&l=map" },
+          { name: "EuroMebel — салон 2", address: "Адрес уточняется", hours: "10:00–20:00", phone: "+7 ___ ___ __ __", gis2: "https://2gis.kz/shymkent/directions/points/%7C69.574046%2C42.327987%3B70000001025997338", yandex: "https://yandex.kz/maps/?pt=69.574046,42.327987&z=17&l=map" },
+          { name: "EuroMebel — салон 3", address: "Адрес уточняется", hours: "10:00–20:00", phone: "+7 ___ ___ __ __", gis2: "https://2gis.kz/shymkent/directions/points/%7C69.619349%2C42.312969%3B70000001026034551", yandex: "https://yandex.kz/maps/?pt=69.619349,42.312969&z=17&l=map" },
+        ],
+      },
+      {
+        id: "taraz",
+        name: "Тараз",
+        stores: [
+          { name: "EuroMebel — салон 1", address: "Адрес уточняется", hours: "10:00–20:00", phone: "+7 ___ ___ __ __", gis2: "https://2gis.kz/taraz/directions/points/%7C71.384395%2C42.90616%3B70000001056624135", yandex: "https://yandex.kz/maps/?pt=71.384395,42.90616&z=17&l=map" },
+          { name: "EuroMebel — салон 2", address: "Адрес уточняется", hours: "10:00–20:00", phone: "+7 ___ ___ __ __", gis2: "https://2gis.kz/taraz/directions/points/%7C71.327099%2C42.898945%3B70000001051490947", yandex: "https://yandex.kz/maps/?pt=71.327099,42.898945&z=17&l=map" },
+          { name: "EuroMebel — салон 3", address: "Адрес уточняется", hours: "10:00–20:00", phone: "+7 ___ ___ __ __", gis2: "https://2gis.kz/taraz/directions/points/%7C71.345125%2C42.891276%3B70000001051838330", yandex: "https://yandex.kz/maps/?pt=71.345125,42.891276&z=17&l=map" },
+        ],
+      },
+      {
+        id: "taldykorgan",
+        name: "Талдыкорган",
+        stores: [
+          { name: "EuroMebel — салон 1", address: "Адрес уточняется", hours: "10:00–20:00", phone: "+7 ___ ___ __ __", gis2: "https://2gis.kz/almaty/directions/points/%7C78.377306%2C45.022941%3B70000001060004741?m=78.389274%2C45.014107%2F13.86", yandex: "https://yandex.kz/maps/?pt=78.377306,45.022941&z=17&l=map" },
+          { name: "EuroMebel — салон 2", address: "Адрес уточняется", hours: "10:00–20:00", phone: "+7 ___ ___ __ __", gis2: "https://2gis.kz/almaty/directions/points/%7C78.382838%2C45.021118%3B70000001080354344?m=78.405207%2C45.026033%2F13.05", yandex: "https://yandex.kz/maps/?pt=78.382838,45.021118&z=17&l=map" },
+        ],
+      },
+      {
+        id: "ust-kamenogorsk",
+        name: "Усть-Каменогорск",
+        stores: [
+          { name: "EuroMebel — салон 1", address: "Адрес уточняется", hours: "10:00–20:00", phone: "+7 ___ ___ __ __", gis2: "https://2gis.kz/ust-kamenogorsk/directions/points/%7C82.580606%2C49.965494%3B70000001028389877", yandex: "https://yandex.kz/maps/?pt=82.580606,49.965494&z=17&l=map" },
+          { name: "EuroMebel — салон 2", address: "Адрес уточняется", hours: "10:00–20:00", phone: "+7 ___ ___ __ __", gis2: "https://2gis.kz/ust-kamenogorsk/directions/points/%7C82.634662%2C49.960886%3B12807639721343631", yandex: "https://yandex.kz/maps/?pt=82.634662,49.960886&z=17&l=map" },
+        ],
+      },
+    ];
+
+    function Row({ icon, text }) {
+      return (
+        <div style={{ display: "flex", alignItems: "center", gap: 8, color: "#5a6675", fontSize: 13.5, marginTop: 3 }}>
+          <span style={{ color: "#a0abbb", display: "flex" }}>{icon}</span>
+          <span>{text}</span>
+        </div>
+      );
+    }
+
+    function MapBtn({ href, label, filled }) {
+      return React.createElement('a', {
+        href,
+        target: "_blank",
+        rel: "noopener noreferrer",
+        style: {
+          flex: 1, display: "flex", alignItems: "center", justifyContent: "center", gap: 6,
+          padding: "11px 8px", borderRadius: 12, fontSize: 14, fontWeight: 600,
+          textDecoration: "none", cursor: "pointer",
+          background: filled ? BRAND : "#fff",
+          color: filled ? "#fff" : BRAND,
+          border: filled ? "none" : `1.5px solid ${BRAND}`,
+        }
+      }, React.createElement(Navigation, { size: 15 }), ` ${label}`);
+    }
+
+    function plural(n) {
+      const a = Math.abs(n) % 100, b = n % 10;
+      if (a > 10 && a < 20) return "салонов";
+      if (b > 1 && b < 5) return "салона";
+      if (b === 1) return "салон";
+      return "салонов";
+    }
+
+    function App() {
+      const [cityId, setCityId] = useState(null);
+      const city = CITIES.find((c) => c.id === cityId);
+
+      return React.createElement('div', {
+        style: { minHeight: "100vh", background: "#f4f6f9", display: "flex", justifyContent: "center", fontFamily: "'Inter', system-ui, sans-serif" }
+      },
+        React.createElement('div', { style: { width: "100%", maxWidth: 460, padding: "28px 18px 48px" } },
+          React.createElement('div', {
+            style: {
+              background: "#fff", borderRadius: 18, padding: "22px 20px 18px",
+              textAlign: "center", marginBottom: 26,
+              border: "1px solid #e2e8f0", boxShadow: "0 1px 3px rgba(20,50,90,0.05)",
+            }
+          },
+            React.createElement('img', {
+              src: LOGO,
+              alt: "EuroMebel",
+              style: { height: 44, width: "auto", display: "inline-block" }
+            }),
+            React.createElement('div', { style: { fontSize: 12.5, color: "#7a8494", marginTop: 10, textTransform: "uppercase", letterSpacing: "0.14em" } }, "Мебельные салоны")
+          ),
+
+          !city ? React.createElement('div', null,
+            React.createElement('p', { style: { textAlign: "center", fontSize: 15, color: "#6b6155", marginBottom: 20 } }, "Выберите город"),
+            React.createElement('div', { style: { display: "flex", flexDirection: "column", gap: 12 } },
+              CITIES.map((c) =>
+                React.createElement('button', {
+                  key: c.id,
+                  onClick: () => setCityId(c.id),
+                  style: {
+                    display: "flex", alignItems: "center", justifyContent: "space-between",
+                    background: "#fff", border: "1px solid #e2e8f0", borderRadius: 16,
+                    padding: "18px 20px", cursor: "pointer", textAlign: "left",
+                    boxShadow: "0 1px 3px rgba(20,50,90,0.05)", transition: "transform .1s, box-shadow .15s",
+                  },
+                  onMouseDown: (e) => (e.currentTarget.style.transform = "scale(0.985)"),
+                  onMouseUp: (e) => (e.currentTarget.style.transform = "scale(1)"),
+                  onMouseLeave: (e) => (e.currentTarget.style.transform = "scale(1)"),
+                },
+                  React.createElement('span', { style: { display: "flex", alignItems: "center", gap: 12 } },
+                    React.createElement(MapPin, { size: 20, color: BRAND }),
+                    React.createElement('span', { style: { fontSize: 17, fontWeight: 600, color: "#1e2530" } }, c.name)
+                  ),
+                  React.createElement('span', { style: { fontSize: 13, color: "#94a0b0", fontWeight: 500 } }, `${c.stores.length} ${plural(c.stores.length)}`)
+                )
+              )
+            )
+          ) : React.createElement('div', null,
+            React.createElement('button', {
+              onClick: () => setCityId(null),
+              style: {
+                display: "flex", alignItems: "center", gap: 4, background: "none",
+                border: "none", cursor: "pointer", color: BRAND, fontSize: 14,
+                fontWeight: 600, marginBottom: 18, padding: "4px 0",
+              }
+            },
+              React.createElement(ChevronLeft, { size: 18 }), " Все города"
+            ),
+
+            React.createElement('h2', { style: { fontSize: 22, fontWeight: 800, color: "#1e2530", marginBottom: 16, display: "flex", alignItems: "center", gap: 10 } },
+              React.createElement('span', { style: { width: 4, height: 22, background: BRAND_RED, borderRadius: 2, display: "inline-block" } }),
+              city.name
+            ),
+
+            React.createElement('div', { style: { display: "flex", flexDirection: "column", gap: 14 } },
+              city.stores.map((s, i) =>
+                React.createElement('div', {
+                  key: i,
+                  style: {
+                    background: "#fff", border: "1px solid #e2e8f0", borderRadius: 16,
+                    padding: 18, boxShadow: "0 1px 3px rgba(20,50,90,0.05)",
+                  }
+                },
+                  React.createElement('div', { style: { fontSize: 16, fontWeight: 700, color: "#1e2530", marginBottom: 8 } }, s.name),
+                  React.createElement(Row, { icon: React.createElement(MapPin, { size: 15 }), text: s.address }),
+                  React.createElement(Row, { icon: React.createElement(Clock, { size: 15 }), text: s.hours }),
+                  React.createElement(Row, { icon: React.createElement(Phone, { size: 15 }), text: s.phone }),
+                  React.createElement('div', { style: { display: "flex", gap: 10, marginTop: 14 } },
+                    React.createElement(MapBtn, { href: s.gis2, label: "2ГИС", filled: true }),
+                    React.createElement(MapBtn, { href: s.yandex, label: "Яндекс.Карты" })
+                  )
+                )
+              )
+            )
+          ),
+
+          React.createElement('div', { style: { textAlign: "center", marginTop: 36, fontSize: 12, color: "#a0abbb" } }, "© EuroMebel · euromebel.kz")
+        )
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById('root')).render(React.createElement(App));
   </script>
 </body>
 </html>
