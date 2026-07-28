@@ -1,188 +1,252 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>EuroMebel — Магазины</title>
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: 'Inter', system-ui, sans-serif; background: #f4f6f9; min-height: 100vh; display: flex; justify-content: center; }
-    .container { width: 100%; max-width: 460px; padding: 28px 18px 48px; }
-    .header { background: #fff; border-radius: 18px; padding: 22px 20px 18px; text-align: center; margin-bottom: 26px; border: 1px solid #e2e8f0; box-shadow: 0 1px 3px rgba(20,50,90,0.05); }
-    .header img { height: 44px; width: auto; display: inline-block; }
-    .header-subtitle { font-size: 12.5px; color: #7a8494; margin-top: 10px; text-transform: uppercase; letter-spacing: 0.14em; }
-    .cities-list { display: flex; flex-direction: column; gap: 12px; }
-    .city-btn { display: flex; align-items: center; justify-content: space-between; background: #fff; border: 1px solid #e2e8f0; border-radius: 16px; padding: 18px 20px; cursor: pointer; text-align: left; box-shadow: 0 1px 3px rgba(20,50,90,0.05); transition: transform 0.1s; font-family: inherit; }
-    .city-btn:active { transform: scale(0.985); }
-    .city-btn-content { display: flex; align-items: center; gap: 12px; flex: 1; }
-    .city-btn-icon { color: #0055A4; }
-    .city-btn-name { font-size: 17px; font-weight: 600; color: #1e2530; }
-    .city-btn-count { font-size: 13px; color: #94a0b0; font-weight: 500; }
-    
-    .back-btn { display: flex; align-items: center; gap: 4px; background: none; border: none; cursor: pointer; color: #0055A4; font-size: 14px; font-weight: 600; margin-bottom: 18px; padding: 4px 0; font-family: inherit; }
-    .city-title { font-size: 22px; font-weight: 800; color: #1e2530; margin-bottom: 16px; display: flex; align-items: center; gap: 10px; }
-    .city-title::before { content: ''; display: inline-block; width: 4px; height: 22px; background: #E30613; border-radius: 2px; }
-    
-    .stores-list { display: flex; flex-direction: column; gap: 14px; }
-    .store-card { background: #fff; border: 1px solid #e2e8f0; border-radius: 16px; padding: 18px; box-shadow: 0 1px 3px rgba(20,50,90,0.05); }
-    .store-name { font-size: 16px; font-weight: 700; color: #1e2530; margin-bottom: 8px; }
-    .store-row { display: flex; align-items: center; gap: 8px; color: #5a6675; font-size: 13.5px; margin-top: 3px; }
-    .store-row-icon { color: #a0abbb; display: flex; }
-    .store-buttons { display: flex; gap: 10px; margin-top: 14px; }
-    .map-btn { flex: 1; display: flex; align-items: center; justify-content: center; gap: 6px; padding: 11px 8px; border-radius: 12px; font-size: 14px; font-weight: 600; text-decoration: none; cursor: pointer; border: 1.5px solid #0055A4; color: #0055A4; background: #fff; transition: all 0.2s; }
-    .map-btn.filled { background: #0055A4; color: #fff; border: none; }
-    .map-btn:hover { transform: translateY(-1px); }
-    
-    .footer { text-align: center; margin-top: 36px; font-size: 12px; color: #a0abbb; }
-    .hidden { display: none !important; }
-    
-    svg { display: inline; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EuroMebel — Наши салоны</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',system-ui,sans-serif;background:#f4f6f9;min-height:100vh;display:flex;justify-content:center;-webkit-font-smoothing:antialiased}
+.container{width:100%;max-width:460px;padding:28px 18px 48px}
+.header{background:#fff;border-radius:18px;padding:24px 20px 18px;text-align:center;margin-bottom:26px;border:1px solid #e2e8f0;box-shadow:0 1px 3px rgba(20,50,90,.05)}
+.header img{height:42px;width:auto;display:block;margin:0 auto}
+.header-sub{font-size:12px;color:#7a8494;margin-top:12px;text-transform:uppercase;letter-spacing:.14em;font-weight:500}
+.prompt{text-align:center;font-size:15px;color:#5a6675;margin-bottom:18px}
+.list{display:flex;flex-direction:column;gap:12px}
+.city-btn{display:flex;align-items:center;justify-content:space-between;width:100%;background:#fff;border:1px solid #e2e8f0;border-radius:16px;padding:18px 20px;cursor:pointer;text-align:left;box-shadow:0 1px 3px rgba(20,50,90,.05);font-family:inherit;transition:transform .12s,border-color .15s}
+.city-btn:hover{border-color:#0055A4}
+.city-btn:active{transform:scale(.985)}
+.city-left{display:flex;align-items:center;gap:12px}
+.city-name{font-size:17px;font-weight:600;color:#1e2530}
+.city-count{font-size:13px;color:#94a0b0;font-weight:500}
+.back-btn{display:flex;align-items:center;gap:5px;background:none;border:none;cursor:pointer;color:#0055A4;font-size:14px;font-weight:600;margin-bottom:18px;padding:4px 0;font-family:inherit}
+.city-title{font-size:22px;font-weight:800;color:#1e2530;margin-bottom:16px;display:flex;align-items:center;gap:10px}
+.city-title::before{content:'';width:4px;height:22px;background:#E30613;border-radius:2px;flex-shrink:0}
+.card{background:#fff;border:1px solid #e2e8f0;border-radius:16px;padding:18px;box-shadow:0 1px 3px rgba(20,50,90,.05)}
+.card-name{font-size:16px;font-weight:700;color:#1e2530;margin-bottom:9px;line-height:1.3}
+.row{display:flex;align-items:flex-start;gap:8px;color:#5a6675;font-size:13.5px;margin-top:4px;line-height:1.45}
+.row svg{flex-shrink:0;margin-top:1px;color:#a0abbb}
+.btns{display:flex;gap:10px;margin-top:15px}
+.map-btn{flex:1;display:flex;align-items:center;justify-content:center;gap:6px;padding:11px 8px;border-radius:12px;font-size:14px;font-weight:600;text-decoration:none;border:1.5px solid #0055A4;color:#0055A4;background:#fff;transition:opacity .15s}
+.map-btn.filled{background:#0055A4;color:#fff;border-color:#0055A4}
+.map-btn:active{opacity:.75}
+.footer{text-align:center;margin-top:34px;font-size:12px;color:#a0abbb}
+.hidden{display:none}
+</style>
 </head>
 <body>
-  <div class="container">
-    <!-- HEADER -->
-    <div class="header">
-      <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASwAAABaCAYAAACB/gISAAAACXBIWXMAACE4AAAhOAF2rZf3AAAA" +
-"GXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3JnXbVZsQEAAAAJcEhZcwAAJOgAACToAafeH/kA" +
-"AAEjSURBVHic7dExDcMwFIZhKiSGSEyBhFiwABMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMw" +
-"ARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMw" +
-"ARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMw" +
-"ARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMw" +
-"ARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMw" +
-"ARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMw" +
-"ARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMw" +
-"ARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMw" +
-"ARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMw" +
-"ARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMw" +
-"ARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMw" +
-"ARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMw" +
-"AAAASUVORK5CYII=" alt="EuroMebel">
-      <div class="header-subtitle">Мебельные салоны</div>
-    </div>
-
-    <!-- SCREEN 1: CITIES -->
-    <div id="citiesScreen">
-      <p style="text-align: center; font-size: 15px; color: #6b6155; margin-bottom: 20px;">Выберите город</p>
-      <div class="cities-list" id="citiesList"></div>
-    </div>
-
-    <!-- SCREEN 2: STORES -->
-    <div id="storesScreen" class="hidden">
-      <button class="back-btn" onclick="showCities()">← Все города</button>
-      <h2 class="city-title" id="cityTitle"></h2>
-      <div class="stores-list" id="storesList"></div>
-    </div>
-
-    <div class="footer">© EuroMebel · euromebel.kz</div>
+<div class="container">
+  <div class="header">
+    <img src="data:image/png;base64,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" alt="EuroMebel">
+    <div class="header-sub">Мебельные салоны</div>
   </div>
 
-  <script>
-    const CITIES = [
+  <div id="screenCities">
+    <p class="prompt">Выберите город</p>
+    <div class="list" id="citiesList"></div>
+  </div>
+
+  <div id="screenStores" class="hidden">
+    <button class="back-btn" onclick="showCities()">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      Все города
+    </button>
+    <h2 class="city-title" id="cityTitle"></h2>
+    <div class="list" id="storesList"></div>
+  </div>
+
+  <div class="footer">© EuroMebel</div>
+</div>
+
+<script>
+const ICON_PIN='<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0055A4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>';
+const ICON_PIN_S='<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>';
+const ICON_CLOCK='<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>';
+const ICON_PHONE='<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>';
+const ICON_NAV='<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>';
+
+const CITIES = [
       {
-        id: "almaty",
-        name: "Алматы",
-        stores: [
-          { name: "EuroMebel — салон 1", address: "Адрес уточняется", hours: "10:00–20:00", phone: "+7 ___ ___ __ __", gis2: "https://2gis.kz/almaty/directions/points/%7C76.947921%2C43.272017%3B9429940000794200", yandex: "https://yandex.kz/maps/?pt=76.947921,43.272017&z=17&l=map" },
-          { name: "EuroMebel — салон 2", address: "Адрес уточняется", hours: "10:00–20:00", phone: "+7 ___ ___ __ __", gis2: "https://2gis.kz/almaty/directions/points/%7C76.846899%2C43.236801%3B70000001045037426", yandex: "https://yandex.kz/maps/?pt=76.846899,43.236801&z=17&l=map" },
-          { name: "EuroMebel — салон 3", address: "Адрес уточняется", hours: "10:00–20:00", phone: "+7 ___ ___ __ __", gis2: "https://2gis.kz/almaty/directions/points/%7C76.864492%2C43.367372%3B70000001089820228", yandex: "https://yandex.kz/maps/?pt=76.864492,43.367372&z=17&l=map" },
-          { name: "EuroMebel — салон 4", address: "Адрес уточняется", hours: "10:00–20:00", phone: "+7 ___ ___ __ __", gis2: "https://2gis.kz/almaty/directions/points/%7C77.024235%2C43.315395%3B70000001080894442?m=76.970079%2C43.2778%2F12", yandex: "https://yandex.kz/maps/?pt=77.024235,43.315395&z=17&l=map" },
-        ],
+            "id": "almaty",
+            "name": "Алматы",
+            "stores": [
+                  {
+                        "name": "EuroMebel, ТК МЕРЕЙ",
+                        "address": "проспект Суюнбая, 2 к5",
+                        "hours": "",
+                        "phone": "",
+                        "gis2": "https://2gis.kz/almaty/directions/points/%7C76.947921%2C43.272017%3B9429940000794200",
+                        "yandex": "https://yandex.kz/maps/?text=%D0%90%D0%BB%D0%BC%D0%B0%D1%82%D1%8B%2C%20%D0%BF%D1%80%D0%BE%D1%81%D0%BF%D0%B5%D0%BA%D1%82%20%D0%A1%D1%83%D1%8E%D0%BD%D0%B1%D0%B0%D1%8F%2C%202%20%D0%BA5&ll=76.947921%2C43.272017&z=17"
+                  },
+                  {
+                        "name": "EuroMebel, ТК ARMADA",
+                        "address": "улица Кабдолова, 1/8",
+                        "hours": "",
+                        "phone": "",
+                        "gis2": "https://2gis.kz/almaty/directions/points/%7C76.846899%2C43.236801%3B70000001045037426",
+                        "yandex": "https://yandex.kz/maps/?text=%D0%90%D0%BB%D0%BC%D0%B0%D1%82%D1%8B%2C%20%D1%83%D0%BB%D0%B8%D1%86%D0%B0%20%D0%9A%D0%B0%D0%B1%D0%B4%D0%BE%D0%BB%D0%BE%D0%B2%D0%B0%2C%201/8&ll=76.846899%2C43.236801&z=17"
+                  },
+                  {
+                        "name": "EuroMebel, Боралдай",
+                        "address": "улица Абылай хана, 5а, пос. Боралдай",
+                        "hours": "",
+                        "phone": "",
+                        "gis2": "https://2gis.kz/almaty/directions/points/%7C76.864492%2C43.367372%3B70000001089820228",
+                        "yandex": "https://yandex.kz/maps/?text=%D0%90%D0%BB%D0%BC%D0%B0%D1%82%D1%8B%2C%20%D1%83%D0%BB%D0%B8%D1%86%D0%B0%20%D0%90%D0%B1%D1%8B%D0%BB%D0%B0%D0%B9%20%D1%85%D0%B0%D0%BD%D0%B0%2C%205%D0%B0%2C%20%D0%BF%D0%BE%D1%81.%20%D0%91%D0%BE%D1%80%D0%B0%D0%BB%D0%B4%D0%B0%D0%B9&ll=76.864492%2C43.367372&z=17"
+                  },
+                  {
+                        "name": "EuroMebel, ТРЦ Aport Mall East",
+                        "address": "Кульджинский тракт, 106",
+                        "hours": "",
+                        "phone": "",
+                        "gis2": "https://2gis.kz/almaty/directions/points/%7C77.024235%2C43.315395%3B70000001080894442",
+                        "yandex": "https://yandex.kz/maps/?text=%D0%90%D0%BB%D0%BC%D0%B0%D1%82%D1%8B%2C%20%D0%9A%D1%83%D0%BB%D1%8C%D0%B4%D0%B6%D0%B8%D0%BD%D1%81%D0%BA%D0%B8%D0%B9%20%D1%82%D1%80%D0%B0%D0%BA%D1%82%2C%20106&ll=77.024235%2C43.315395&z=17"
+                  }
+            ]
       },
       {
-        id: "shymkent",
-        name: "Шымкент",
-        stores: [
-          { name: "EuroMebel — салон 1", address: "Адрес уточняется", hours: "10:00–20:00", phone: "+7 ___ ___ __ __", gis2: "https://2gis.kz/shymkent/directions/points/%7C69.636013%2C42.340015%3B70000001079860196", yandex: "https://yandex.kz/maps/?pt=69.636013,42.340015&z=17&l=map" },
-          { name: "EuroMebel — салон 2", address: "Адрес уточняется", hours: "10:00–20:00", phone: "+7 ___ ___ __ __", gis2: "https://2gis.kz/shymkent/directions/points/%7C69.574046%2C42.327987%3B70000001025997338", yandex: "https://yandex.kz/maps/?pt=69.574046,42.327987&z=17&l=map" },
-          { name: "EuroMebel — салон 3", address: "Адрес уточняется", hours: "10:00–20:00", phone: "+7 ___ ___ __ __", gis2: "https://2gis.kz/shymkent/directions/points/%7C69.619349%2C42.312969%3B70000001026034551", yandex: "https://yandex.kz/maps/?pt=69.619349,42.312969&z=17&l=map" },
-        ],
+            "id": "shymkent",
+            "name": "Шымкент",
+            "stores": [
+                  {
+                        "name": "EuroMebel на Рыскулова",
+                        "address": "улица Рыскулова, 22/2",
+                        "hours": "",
+                        "phone": "",
+                        "gis2": "https://2gis.kz/shymkent/directions/points/%7C69.636013%2C42.340015%3B70000001079860196",
+                        "yandex": "https://yandex.kz/maps/?text=%D0%A8%D1%8B%D0%BC%D0%BA%D0%B5%D0%BD%D1%82%2C%20%D1%83%D0%BB%D0%B8%D1%86%D0%B0%20%D0%A0%D1%8B%D1%81%D0%BA%D1%83%D0%BB%D0%BE%D0%B2%D0%B0%2C%2022/2&ll=69.636013%2C42.340015&z=17"
+                  },
+                  {
+                        "name": "EuroMebel на Тамерлановском",
+                        "address": "Тамерлановское шоссе, 19/2",
+                        "hours": "",
+                        "phone": "",
+                        "gis2": "https://2gis.kz/shymkent/directions/points/%7C69.574046%2C42.327987%3B70000001025997338",
+                        "yandex": "https://yandex.kz/maps/?text=%D0%A8%D1%8B%D0%BC%D0%BA%D0%B5%D0%BD%D1%82%2C%20%D0%A2%D0%B0%D0%BC%D0%B5%D1%80%D0%BB%D0%B0%D0%BD%D0%BE%D0%B2%D1%81%D0%BA%D0%BE%D0%B5%20%D1%88%D0%BE%D1%81%D1%81%D0%B5%2C%2019/2&ll=69.574046%2C42.327987&z=17"
+                  },
+                  {
+                        "name": "EuroMebel на Тауке хана",
+                        "address": "проспект Тауке хана, 148",
+                        "hours": "",
+                        "phone": "",
+                        "gis2": "https://2gis.kz/shymkent/directions/points/%7C69.619349%2C42.312969%3B70000001026034551",
+                        "yandex": "https://yandex.kz/maps/?text=%D0%A8%D1%8B%D0%BC%D0%BA%D0%B5%D0%BD%D1%82%2C%20%D0%BF%D1%80%D0%BE%D1%81%D0%BF%D0%B5%D0%BA%D1%82%20%D0%A2%D0%B0%D1%83%D0%BA%D0%B5%20%D1%85%D0%B0%D0%BD%D0%B0%2C%20148&ll=69.619349%2C42.312969&z=17"
+                  }
+            ]
       },
       {
-        id: "taraz",
-        name: "Тараз",
-        stores: [
-          { name: "EuroMebel — салон 1", address: "Адрес уточняется", hours: "10:00–20:00", phone: "+7 ___ ___ __ __", gis2: "https://2gis.kz/taraz/directions/points/%7C71.384395%2C42.90616%3B70000001056624135", yandex: "https://yandex.kz/maps/?pt=71.384395,42.90616&z=17&l=map" },
-          { name: "EuroMebel — салон 2", address: "Адрес уточняется", hours: "10:00–20:00", phone: "+7 ___ ___ __ __", gis2: "https://2gis.kz/taraz/directions/points/%7C71.327099%2C42.898945%3B70000001051490947", yandex: "https://yandex.kz/maps/?pt=71.327099,42.898945&z=17&l=map" },
-          { name: "EuroMebel — салон 3", address: "Адрес уточняется", hours: "10:00–20:00", phone: "+7 ___ ___ __ __", gis2: "https://2gis.kz/taraz/directions/points/%7C71.345125%2C42.891276%3B70000001051838330", yandex: "https://yandex.kz/maps/?pt=71.345125,42.891276&z=17&l=map" },
-        ],
+            "id": "taraz",
+            "name": "Тараз",
+            "stores": [
+                  {
+                        "name": "EuroMebel на Абая",
+                        "address": "проспект Абая, 103а",
+                        "hours": "",
+                        "phone": "",
+                        "gis2": "https://2gis.kz/taraz/directions/points/%7C71.384395%2C42.90616%3B70000001056624135",
+                        "yandex": "https://yandex.kz/maps/?text=%D0%A2%D0%B0%D1%80%D0%B0%D0%B7%2C%20%D0%BF%D1%80%D0%BE%D1%81%D0%BF%D0%B5%D0%BA%D1%82%20%D0%90%D0%B1%D0%B0%D1%8F%2C%20103%D0%B0&ll=71.384395%2C42.90616&z=17"
+                  },
+                  {
+                        "name": "EuroMebel на Тауке хана",
+                        "address": "улица Тауке хана, 15",
+                        "hours": "",
+                        "phone": "",
+                        "gis2": "https://2gis.kz/taraz/directions/points/%7C71.327099%2C42.898945%3B70000001051490947",
+                        "yandex": "https://yandex.kz/maps/?text=%D0%A2%D0%B0%D1%80%D0%B0%D0%B7%2C%20%D1%83%D0%BB%D0%B8%D1%86%D0%B0%20%D0%A2%D0%B0%D1%83%D0%BA%D0%B5%20%D1%85%D0%B0%D0%BD%D0%B0%2C%2015&ll=71.327099%2C42.898945&z=17"
+                  },
+                  {
+                        "name": "EuroMebel, отдел продаж",
+                        "address": "улица Каратая Турысова, 45",
+                        "hours": "",
+                        "phone": "",
+                        "gis2": "https://2gis.kz/taraz/directions/points/%7C71.345125%2C42.891276%3B70000001051838330",
+                        "yandex": "https://yandex.kz/maps/?text=%D0%A2%D0%B0%D1%80%D0%B0%D0%B7%2C%20%D1%83%D0%BB%D0%B8%D1%86%D0%B0%20%D0%9A%D0%B0%D1%80%D0%B0%D1%82%D0%B0%D1%8F%20%D0%A2%D1%83%D1%80%D1%8B%D1%81%D0%BE%D0%B2%D0%B0%2C%2045&ll=71.345125%2C42.891276&z=17"
+                  }
+            ]
       },
       {
-        id: "taldykorgan",
-        name: "Талдыкорган",
-        stores: [
-          { name: "EuroMebel — салон 1", address: "Адрес уточняется", hours: "10:00–20:00", phone: "+7 ___ ___ __ __", gis2: "https://2gis.kz/almaty/directions/points/%7C78.377306%2C45.022941%3B70000001060004741?m=78.389274%2C45.014107%2F13.86", yandex: "https://yandex.kz/maps/?pt=78.377306,45.022941&z=17&l=map" },
-          { name: "EuroMebel — салон 2", address: "Адрес уточняется", hours: "10:00–20:00", phone: "+7 ___ ___ __ __", gis2: "https://2gis.kz/almaty/directions/points/%7C78.382838%2C45.021118%3B70000001080354344?m=78.405207%2C45.026033%2F13.05", yandex: "https://yandex.kz/maps/?pt=78.382838,45.021118&z=17&l=map" },
-        ],
+            "id": "taldykorgan",
+            "name": "Талдыкорган",
+            "stores": [
+                  {
+                        "name": "EuroMebel на Биржан Сала",
+                        "address": "улица Биржан Сала, 50/52",
+                        "hours": "",
+                        "phone": "",
+                        "gis2": "https://2gis.kz/almaty/directions/points/%7C78.377306%2C45.022941%3B70000001060004741",
+                        "yandex": "https://yandex.kz/maps/?text=%D0%A2%D0%B0%D0%BB%D0%B4%D1%8B%D0%BA%D0%BE%D1%80%D0%B3%D0%B0%D0%BD%2C%20%D1%83%D0%BB%D0%B8%D1%86%D0%B0%20%D0%91%D0%B8%D1%80%D0%B6%D0%B0%D0%BD%20%D0%A1%D0%B0%D0%BB%D0%B0%2C%2050/52&ll=78.377306%2C45.022941&z=17"
+                  },
+                  {
+                        "name": "Евромебель на Абая",
+                        "address": "улица Абая, 254а",
+                        "hours": "",
+                        "phone": "",
+                        "gis2": "https://2gis.kz/almaty/directions/points/%7C78.382838%2C45.021118%3B70000001080354344",
+                        "yandex": "https://yandex.kz/maps/?text=%D0%A2%D0%B0%D0%BB%D0%B4%D1%8B%D0%BA%D0%BE%D1%80%D0%B3%D0%B0%D0%BD%2C%20%D1%83%D0%BB%D0%B8%D1%86%D0%B0%20%D0%90%D0%B1%D0%B0%D1%8F%2C%20254%D0%B0&ll=78.382838%2C45.021118&z=17"
+                  }
+            ]
       },
       {
-        id: "ust-kamenogorsk",
-        name: "Усть-Каменогорск",
-        stores: [
-          { name: "EuroMebel — салон 1", address: "Адрес уточняется", hours: "10:00–20:00", phone: "+7 ___ ___ __ __", gis2: "https://2gis.kz/ust-kamenogorsk/directions/points/%7C82.580606%2C49.965494%3B70000001028389877", yandex: "https://yandex.kz/maps/?pt=82.580606,49.965494&z=17&l=map" },
-          { name: "EuroMebel — салон 2", address: "Адрес уточняется", hours: "10:00–20:00", phone: "+7 ___ ___ __ __", gis2: "https://2gis.kz/ust-kamenogorsk/directions/points/%7C82.634662%2C49.960886%3B12807639721343631", yandex: "https://yandex.kz/maps/?pt=82.634662,49.960886&z=17&l=map" },
-        ],
-      },
-    ];
+            "id": "ust-kamenogorsk",
+            "name": "Усть-Каменогорск",
+            "stores": [
+                  {
+                        "name": "EuroMebel, ТВЦ",
+                        "address": "улица Севастопольская, 12а",
+                        "hours": "",
+                        "phone": "",
+                        "gis2": "https://2gis.kz/ust-kamenogorsk/directions/points/%7C82.580606%2C49.965494%3B70000001028389877",
+                        "yandex": "https://yandex.kz/maps/?text=%D0%A3%D1%81%D1%82%D1%8C-%D0%9A%D0%B0%D0%BC%D0%B5%D0%BD%D0%BE%D0%B3%D0%BE%D1%80%D1%81%D0%BA%2C%20%D1%83%D0%BB%D0%B8%D1%86%D0%B0%20%D0%A1%D0%B5%D0%B2%D0%B0%D1%81%D1%82%D0%BE%D0%BF%D0%BE%D0%BB%D1%8C%D1%81%D0%BA%D0%B0%D1%8F%2C%2012%D0%B0&ll=82.580606%2C49.965494&z=17"
+                  },
+                  {
+                        "name": "EuroMebel на Казахстан",
+                        "address": "улица Казахстан, 159",
+                        "hours": "",
+                        "phone": "",
+                        "gis2": "https://2gis.kz/ust-kamenogorsk/directions/points/%7C82.634662%2C49.960886%3B12807639721343631",
+                        "yandex": "https://yandex.kz/maps/?text=%D0%A3%D1%81%D1%82%D1%8C-%D0%9A%D0%B0%D0%BC%D0%B5%D0%BD%D0%BE%D0%B3%D0%BE%D1%80%D1%81%D0%BA%2C%20%D1%83%D0%BB%D0%B8%D1%86%D0%B0%20%D0%9A%D0%B0%D0%B7%D0%B0%D1%85%D1%81%D1%82%D0%B0%D0%BD%2C%20159&ll=82.634662%2C49.960886&z=17"
+                  }
+            ]
+      }
+];
 
-    function plural(n) {
-      const a = Math.abs(n) % 100, b = n % 10;
-      if (a > 10 && a < 20) return "салонов";
-      if (b > 1 && b < 5) return "салона";
-      if (b === 1) return "салон";
-      return "салонов";
-    }
+function plural(n){const a=Math.abs(n)%100,b=n%10;
+ if(a>10&&a<20)return"салонов";if(b>1&&b<5)return"салона";if(b===1)return"салон";return"салонов";}
 
-    function renderCities() {
-      const list = document.getElementById('citiesList');
-      list.innerHTML = CITIES.map(city => `
-        <button class="city-btn" onclick="showCity('${city.id}')">
-          <span class="city-btn-content">
-            <span class="city-btn-icon">📍</span>
-            <span class="city-btn-name">${city.name}</span>
-          </span>
-          <span class="city-btn-count">${city.stores.length} ${plural(city.stores.length)}</span>
-        </button>
-      `).join('');
-    }
+function renderCities(){
+  document.getElementById('citiesList').innerHTML = CITIES.map(c=>
+    '<button class="city-btn" onclick="showCity(\''+c.id+'\')">'+
+      '<span class="city-left">'+ICON_PIN+'<span class="city-name">'+c.name+'</span></span>'+
+      '<span class="city-count">'+c.stores.length+' '+plural(c.stores.length)+'</span>'+
+    '</button>').join('');
+}
 
-    function showCity(cityId) {
-      const city = CITIES.find(c => c.id === cityId);
-      document.getElementById('cityTitle').textContent = city.name;
-      
-      const list = document.getElementById('storesList');
-      list.innerHTML = city.stores.map(store => `
-        <div class="store-card">
-          <div class="store-name">${store.name}</div>
-          <div class="store-row">
-            <span class="store-row-icon">📍</span>
-            <span>${store.address}</span>
-          </div>
-          <div class="store-row">
-            <span class="store-row-icon">🕐</span>
-            <span>${store.hours}</span>
-          </div>
-          <div class="store-row">
-            <span class="store-row-icon">📞</span>
-            <span>${store.phone}</span>
-          </div>
-          <div class="store-buttons">
-            <a href="${store.gis2}" target="_blank" class="map-btn filled">🧭 2ГИС</a>
-            <a href="${store.yandex}" target="_blank" class="map-btn">🧭 Яндекс.Карты</a>
-          </div>
-        </div>
-      `).join('');
-      
-      document.getElementById('citiesScreen').classList.add('hidden');
-      document.getElementById('storesScreen').classList.remove('hidden');
-    }
+function showCity(id){
+  const c = CITIES.find(x=>x.id===id);
+  document.getElementById('cityTitle').textContent = c.name;
+  document.getElementById('storesList').innerHTML = c.stores.map(s=>{
+    let rows = '<div class="row">'+ICON_PIN_S+'<span>'+s.address+'</span></div>';
+    if(s.hours) rows += '<div class="row">'+ICON_CLOCK+'<span>'+s.hours+'</span></div>';
+    if(s.phone) rows += '<div class="row">'+ICON_PHONE+'<a href="tel:'+s.phone.replace(/[^+0-9]/g,'')+'" style="color:inherit;text-decoration:none">'+s.phone+'</a></div>';
+    return '<div class="card"><div class="card-name">'+s.name+'</div>'+rows+
+      '<div class="btns">'+
+        '<a class="map-btn filled" href="'+s.gis2+'" target="_blank" rel="noopener">'+ICON_NAV+'2ГИС</a>'+
+        '<a class="map-btn" href="'+s.yandex+'" target="_blank" rel="noopener">'+ICON_NAV+'Яндекс</a>'+
+      '</div></div>';
+  }).join('');
+  document.getElementById('screenCities').classList.add('hidden');
+  document.getElementById('screenStores').classList.remove('hidden');
+  window.scrollTo(0,0);
+}
 
-    function showCities() {
-      document.getElementById('citiesScreen').classList.remove('hidden');
-      document.getElementById('storesScreen').classList.add('hidden');
-    }
+function showCities(){
+  document.getElementById('screenCities').classList.remove('hidden');
+  document.getElementById('screenStores').classList.add('hidden');
+  window.scrollTo(0,0);
+}
 
-    renderCities();
-  </script>
+renderCities();
+</script>
 </body>
 </html>
