@@ -4,106 +4,80 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>EuroMebel — Магазины</title>
-  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: 'Inter', system-ui, sans-serif; }
+    body { font-family: 'Inter', system-ui, sans-serif; background: #f4f6f9; min-height: 100vh; display: flex; justify-content: center; }
+    .container { width: 100%; max-width: 460px; padding: 28px 18px 48px; }
+    .header { background: #fff; border-radius: 18px; padding: 22px 20px 18px; text-align: center; margin-bottom: 26px; border: 1px solid #e2e8f0; box-shadow: 0 1px 3px rgba(20,50,90,0.05); }
+    .header img { height: 44px; width: auto; display: inline-block; }
+    .header-subtitle { font-size: 12.5px; color: #7a8494; margin-top: 10px; text-transform: uppercase; letter-spacing: 0.14em; }
+    .cities-list { display: flex; flex-direction: column; gap: 12px; }
+    .city-btn { display: flex; align-items: center; justify-content: space-between; background: #fff; border: 1px solid #e2e8f0; border-radius: 16px; padding: 18px 20px; cursor: pointer; text-align: left; box-shadow: 0 1px 3px rgba(20,50,90,0.05); transition: transform 0.1s; font-family: inherit; }
+    .city-btn:active { transform: scale(0.985); }
+    .city-btn-content { display: flex; align-items: center; gap: 12px; flex: 1; }
+    .city-btn-icon { color: #0055A4; }
+    .city-btn-name { font-size: 17px; font-weight: 600; color: #1e2530; }
+    .city-btn-count { font-size: 13px; color: #94a0b0; font-weight: 500; }
+    
+    .back-btn { display: flex; align-items: center; gap: 4px; background: none; border: none; cursor: pointer; color: #0055A4; font-size: 14px; font-weight: 600; margin-bottom: 18px; padding: 4px 0; font-family: inherit; }
+    .city-title { font-size: 22px; font-weight: 800; color: #1e2530; margin-bottom: 16px; display: flex; align-items: center; gap: 10px; }
+    .city-title::before { content: ''; display: inline-block; width: 4px; height: 22px; background: #E30613; border-radius: 2px; }
+    
+    .stores-list { display: flex; flex-direction: column; gap: 14px; }
+    .store-card { background: #fff; border: 1px solid #e2e8f0; border-radius: 16px; padding: 18px; box-shadow: 0 1px 3px rgba(20,50,90,0.05); }
+    .store-name { font-size: 16px; font-weight: 700; color: #1e2530; margin-bottom: 8px; }
+    .store-row { display: flex; align-items: center; gap: 8px; color: #5a6675; font-size: 13.5px; margin-top: 3px; }
+    .store-row-icon { color: #a0abbb; display: flex; }
+    .store-buttons { display: flex; gap: 10px; margin-top: 14px; }
+    .map-btn { flex: 1; display: flex; align-items: center; justify-content: center; gap: 6px; padding: 11px 8px; border-radius: 12px; font-size: 14px; font-weight: 600; text-decoration: none; cursor: pointer; border: 1.5px solid #0055A4; color: #0055A4; background: #fff; transition: all 0.2s; }
+    .map-btn.filled { background: #0055A4; color: #fff; border: none; }
+    .map-btn:hover { transform: translateY(-1px); }
+    
+    .footer { text-align: center; margin-top: 36px; font-size: 12px; color: #a0abbb; }
+    .hidden { display: none !important; }
+    
+    svg { display: inline; }
   </style>
 </head>
 <body>
-  <div id="root"></div>
+  <div class="container">
+    <!-- HEADER -->
+    <div class="header">
+      <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASwAAABaCAYAAACB/gISAAAACXBIWXMAACE4AAAhOAF2rZf3AAAA" +
+"GXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3JnXbVZsQEAAAAJcEhZcwAAJOgAACToAafeH/kA" +
+"AAEjSURBVHic7dExDcMwFIZhKiSGSEyBhFiwABMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMw" +
+"ARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMw" +
+"ARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMw" +
+"ARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMw" +
+"ARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMw" +
+"ARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMw" +
+"ARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMw" +
+"ARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMw" +
+"ARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMw" +
+"ARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMw" +
+"ARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMw" +
+"ARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMwARMw" +
+"AAAASUVORK5CYII=" alt="EuroMebel">
+      <div class="header-subtitle">Мебельные салоны</div>
+    </div>
+
+    <!-- SCREEN 1: CITIES -->
+    <div id="citiesScreen">
+      <p style="text-align: center; font-size: 15px; color: #6b6155; margin-bottom: 20px;">Выберите город</p>
+      <div class="cities-list" id="citiesList"></div>
+    </div>
+
+    <!-- SCREEN 2: STORES -->
+    <div id="storesScreen" class="hidden">
+      <button class="back-btn" onclick="showCities()">← Все города</button>
+      <h2 class="city-title" id="cityTitle"></h2>
+      <div class="stores-list" id="storesList"></div>
+    </div>
+
+    <div class="footer">© EuroMebel · euromebel.kz</div>
+  </div>
 
   <script>
-    const { useState } = React;
-    const { MapPin, ChevronLeft, Navigation, Clock, Phone } = (() => {
-      const createIcon = (paths, name) => ({ name, paths });
-      return {
-        MapPin: (props) => <svg xmlns="http://www.w3.org/2000/svg" width={props.size||24} height={props.size||24} viewBox="0 0 24 24" fill="none" stroke={props.color||"currentColor"} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>,
-        ChevronLeft: (props) => <svg xmlns="http://www.w3.org/2000/svg" width={props.size||24} height={props.size||24} viewBox="0 0 24 24" fill="none" stroke={props.color||"currentColor"} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"/></svg>,
-        Navigation: (props) => <svg xmlns="http://www.w3.org/2000/svg" width={props.size||24} height={props.size||24} viewBox="0 0 24 24" fill="none" stroke={props.color||"currentColor"} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>,
-        Clock: (props) => <svg xmlns="http://www.w3.org/2000/svg" width={props.size||24} height={props.size||24} viewBox="0 0 24 24" fill="none" stroke={props.color||"currentColor"} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>,
-        Phone: (props) => <svg xmlns="http://www.w3.org/2000/svg" width={props.size||24} height={props.size||24} viewBox="0 0 24 24" fill="none" stroke={props.color||"currentColor"} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-      };
-    })();
-
-    const LOGO = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASwAAABaCAYAAACB/gISAAAACXBIWXMAACE4AAAhOAF2rZf3AAAA" +
-"GXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3JnXbVZsQEAAAAJcEhZcwAAJOgAACToAafeH/kA" +
-"AAEjSURBVHic7dExDcMwFIZhKiSGSEyBhFiwABMwARMwABOwABOwQMAESJiACSZgBEaIjKDI0k/u" +
-"//L9n99JqZRKpVQqlUqlUimVSqVSKZVKpVQqlUqlUimVSqVSKZVKpVQqlUqlUiqVUimVUimVUimV" +
-"UimVUimVUimVUimVUimVSn08j2MYho7j4Pt+v99vNpvd73eUUqVSKZVKqZRKqVQqlUqlUiqVUimV" +
-"SqVSKpVSqZRKpVIqlUqlUiqVUimVUimVUimVUimVUimVUimVUimVUimVUiqVUimVUimVUimVUimV" +
-"UimVUimVUimVUimVUimVUimVUimVUimVSqVSKpVKpVQqlUqlUiqVUimVUimVUqmUSqlUKpVSKZVK" +
-"qVQqlUqlUiqVUimVUimVUimVUimVUimVUimVUimVUimVUimVUimVUimVUimVUimVUimVUimVUiqV" +
-"UimVUimVUimVUiqVUimVUimVUiqVUimVUimVSqlUKpVSqVQqlUqlUimVUimVUiqVUiqVUimVUimV" +
-"UimVUimVUimVUimVUimVUimVUimVUimVUimVUimVUimVUimVUimVUimVUimVUimVUimVUimVUimV" +
-"UqlUKpVKpVIplUqlUimVUimVUimVUimVUimVUimVUimVUimVUimVUimVUimVUimVUimVUimVUimV" +
-"UimVUimVUimVUimVUimVUimVUimVUimVUimVUimVUimVSqlUKpVKpVIqlUqlUimVUqlUKpVSKZVK" +
-"qZRKpVIqlUqlUimVUqlUKpVSKZVKpVIqlUqlUimVUqlUKpVSKZVKpVIqlUqlUimVUqlUKpVSKpVS" +
-"KZVKpVIqlUqlUimVUqlUKpVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVS" +
-"KZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVS" +
-"KZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVS" +
-"KZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVS" +
-"KZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVS" +
-"KZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVS" +
-"KZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVS" +
-"KZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVS" +
-"KZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVS" +
-"KZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVS" +
-"KZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVS" +
-"KZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVS" +
-"KZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVS" +
-"KZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVS" +
-"KZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVS" +
-"KZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVS" +
-"KZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVS" +
-"KZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVS" +
-"KZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVS" +
-"KZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVS" +
-"KZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVS" +
-"KZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVS" +
-"KZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVS" +
-"KZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVS" +
-"KZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVS" +
-"KZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVS" +
-"KZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVS" +
-"KZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVS" +
-"KZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVS" +
-"KZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVS" +
-"KZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVS" +
-"KZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVS" +
-"KZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVS" +
-"KZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVS" +
-"KZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVS" +
-"KZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVS" +
-"KZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVS" +
-"KZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVS" +
-"KZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVS" +
-"KZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVS" +
-"KZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVS" +
-"KZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVS" +
-"KZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVS" +
-"KZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVS" +
-"KZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVS" +
-"KZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVS" +
-"KZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVS" +
-"KZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVS" +
-"KZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVS" +
-"KZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVS" +
-"KZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVS" +
-"KZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVS" +
-"KZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVS" +
-"KZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVS" +
-"KZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVS" +
-"KZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVS" +
-"KZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVS" +
-"KZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVS" +
-"KZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVSKZVS" +
-"AAAASUVORK5CYII=";
-
-    const BRAND = "#0055A4";
-    const BRAND_RED = "#E30613";
-
     const CITIES = [
       {
         id: "almaty",
@@ -151,31 +125,6 @@
       },
     ];
 
-    function Row({ icon, text }) {
-      return (
-        <div style={{ display: "flex", alignItems: "center", gap: 8, color: "#5a6675", fontSize: 13.5, marginTop: 3 }}>
-          <span style={{ color: "#a0abbb", display: "flex" }}>{icon}</span>
-          <span>{text}</span>
-        </div>
-      );
-    }
-
-    function MapBtn({ href, label, filled }) {
-      return React.createElement('a', {
-        href,
-        target: "_blank",
-        rel: "noopener noreferrer",
-        style: {
-          flex: 1, display: "flex", alignItems: "center", justifyContent: "center", gap: 6,
-          padding: "11px 8px", borderRadius: 12, fontSize: 14, fontWeight: 600,
-          textDecoration: "none", cursor: "pointer",
-          background: filled ? BRAND : "#fff",
-          color: filled ? "#fff" : BRAND,
-          border: filled ? "none" : `1.5px solid ${BRAND}`,
-        }
-      }, React.createElement(Navigation, { size: 15 }), ` ${label}`);
-    }
-
     function plural(n) {
       const a = Math.abs(n) % 100, b = n % 10;
       if (a > 10 && a < 20) return "салонов";
@@ -184,99 +133,56 @@
       return "салонов";
     }
 
-    function App() {
-      const [cityId, setCityId] = useState(null);
-      const city = CITIES.find((c) => c.id === cityId);
-
-      return React.createElement('div', {
-        style: { minHeight: "100vh", background: "#f4f6f9", display: "flex", justifyContent: "center", fontFamily: "'Inter', system-ui, sans-serif" }
-      },
-        React.createElement('div', { style: { width: "100%", maxWidth: 460, padding: "28px 18px 48px" } },
-          React.createElement('div', {
-            style: {
-              background: "#fff", borderRadius: 18, padding: "22px 20px 18px",
-              textAlign: "center", marginBottom: 26,
-              border: "1px solid #e2e8f0", boxShadow: "0 1px 3px rgba(20,50,90,0.05)",
-            }
-          },
-            React.createElement('img', {
-              src: LOGO,
-              alt: "EuroMebel",
-              style: { height: 44, width: "auto", display: "inline-block" }
-            }),
-            React.createElement('div', { style: { fontSize: 12.5, color: "#7a8494", marginTop: 10, textTransform: "uppercase", letterSpacing: "0.14em" } }, "Мебельные салоны")
-          ),
-
-          !city ? React.createElement('div', null,
-            React.createElement('p', { style: { textAlign: "center", fontSize: 15, color: "#6b6155", marginBottom: 20 } }, "Выберите город"),
-            React.createElement('div', { style: { display: "flex", flexDirection: "column", gap: 12 } },
-              CITIES.map((c) =>
-                React.createElement('button', {
-                  key: c.id,
-                  onClick: () => setCityId(c.id),
-                  style: {
-                    display: "flex", alignItems: "center", justifyContent: "space-between",
-                    background: "#fff", border: "1px solid #e2e8f0", borderRadius: 16,
-                    padding: "18px 20px", cursor: "pointer", textAlign: "left",
-                    boxShadow: "0 1px 3px rgba(20,50,90,0.05)", transition: "transform .1s, box-shadow .15s",
-                  },
-                  onMouseDown: (e) => (e.currentTarget.style.transform = "scale(0.985)"),
-                  onMouseUp: (e) => (e.currentTarget.style.transform = "scale(1)"),
-                  onMouseLeave: (e) => (e.currentTarget.style.transform = "scale(1)"),
-                },
-                  React.createElement('span', { style: { display: "flex", alignItems: "center", gap: 12 } },
-                    React.createElement(MapPin, { size: 20, color: BRAND }),
-                    React.createElement('span', { style: { fontSize: 17, fontWeight: 600, color: "#1e2530" } }, c.name)
-                  ),
-                  React.createElement('span', { style: { fontSize: 13, color: "#94a0b0", fontWeight: 500 } }, `${c.stores.length} ${plural(c.stores.length)}`)
-                )
-              )
-            )
-          ) : React.createElement('div', null,
-            React.createElement('button', {
-              onClick: () => setCityId(null),
-              style: {
-                display: "flex", alignItems: "center", gap: 4, background: "none",
-                border: "none", cursor: "pointer", color: BRAND, fontSize: 14,
-                fontWeight: 600, marginBottom: 18, padding: "4px 0",
-              }
-            },
-              React.createElement(ChevronLeft, { size: 18 }), " Все города"
-            ),
-
-            React.createElement('h2', { style: { fontSize: 22, fontWeight: 800, color: "#1e2530", marginBottom: 16, display: "flex", alignItems: "center", gap: 10 } },
-              React.createElement('span', { style: { width: 4, height: 22, background: BRAND_RED, borderRadius: 2, display: "inline-block" } }),
-              city.name
-            ),
-
-            React.createElement('div', { style: { display: "flex", flexDirection: "column", gap: 14 } },
-              city.stores.map((s, i) =>
-                React.createElement('div', {
-                  key: i,
-                  style: {
-                    background: "#fff", border: "1px solid #e2e8f0", borderRadius: 16,
-                    padding: 18, boxShadow: "0 1px 3px rgba(20,50,90,0.05)",
-                  }
-                },
-                  React.createElement('div', { style: { fontSize: 16, fontWeight: 700, color: "#1e2530", marginBottom: 8 } }, s.name),
-                  React.createElement(Row, { icon: React.createElement(MapPin, { size: 15 }), text: s.address }),
-                  React.createElement(Row, { icon: React.createElement(Clock, { size: 15 }), text: s.hours }),
-                  React.createElement(Row, { icon: React.createElement(Phone, { size: 15 }), text: s.phone }),
-                  React.createElement('div', { style: { display: "flex", gap: 10, marginTop: 14 } },
-                    React.createElement(MapBtn, { href: s.gis2, label: "2ГИС", filled: true }),
-                    React.createElement(MapBtn, { href: s.yandex, label: "Яндекс.Карты" })
-                  )
-                )
-              )
-            )
-          ),
-
-          React.createElement('div', { style: { textAlign: "center", marginTop: 36, fontSize: 12, color: "#a0abbb" } }, "© EuroMebel · euromebel.kz")
-        )
-      );
+    function renderCities() {
+      const list = document.getElementById('citiesList');
+      list.innerHTML = CITIES.map(city => `
+        <button class="city-btn" onclick="showCity('${city.id}')">
+          <span class="city-btn-content">
+            <span class="city-btn-icon">📍</span>
+            <span class="city-btn-name">${city.name}</span>
+          </span>
+          <span class="city-btn-count">${city.stores.length} ${plural(city.stores.length)}</span>
+        </button>
+      `).join('');
     }
 
-    ReactDOM.createRoot(document.getElementById('root')).render(React.createElement(App));
+    function showCity(cityId) {
+      const city = CITIES.find(c => c.id === cityId);
+      document.getElementById('cityTitle').textContent = city.name;
+      
+      const list = document.getElementById('storesList');
+      list.innerHTML = city.stores.map(store => `
+        <div class="store-card">
+          <div class="store-name">${store.name}</div>
+          <div class="store-row">
+            <span class="store-row-icon">📍</span>
+            <span>${store.address}</span>
+          </div>
+          <div class="store-row">
+            <span class="store-row-icon">🕐</span>
+            <span>${store.hours}</span>
+          </div>
+          <div class="store-row">
+            <span class="store-row-icon">📞</span>
+            <span>${store.phone}</span>
+          </div>
+          <div class="store-buttons">
+            <a href="${store.gis2}" target="_blank" class="map-btn filled">🧭 2ГИС</a>
+            <a href="${store.yandex}" target="_blank" class="map-btn">🧭 Яндекс.Карты</a>
+          </div>
+        </div>
+      `).join('');
+      
+      document.getElementById('citiesScreen').classList.add('hidden');
+      document.getElementById('storesScreen').classList.remove('hidden');
+    }
+
+    function showCities() {
+      document.getElementById('citiesScreen').classList.remove('hidden');
+      document.getElementById('storesScreen').classList.add('hidden');
+    }
+
+    renderCities();
   </script>
 </body>
 </html>
